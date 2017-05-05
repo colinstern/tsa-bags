@@ -47,7 +47,7 @@
 <div class="row">
   <div id="heatmap">
        <strong>Airports by Volume of Claims</strong>
-       <a class="reset" href="javascript:heatMap.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+       <a class="reset" href="javascript:airportHeatmap.filterAll();dc.redrawAll();" style="display: none;">reset</a>
        <div class="clearfix"></div>
        <div class="row">
          <div id="heat-select">
@@ -88,26 +88,22 @@
          </div>
        </div>
    </div>
+ </div>
 
 
    <!--  Parallel coordinates - Correlations between Airport, Airline, Where Item was Lost, Close Amount and Disposition of Claim goes here -->
+<div class="row">
    <div id="parallel-coordinates">
         <strong>Correlations between Airport, Airline, Where Item was Lost, Close Amount and Disposition of Claim</strong>
         <a class="reset" href="javascript:parallelCoordinates.filterAll();dc.redrawAll();" style="display: none;">reset</a>
         <div class="clearfix"></div>
         <div class="row">
-          <div id="parallel-coordinates-select">
-            <div>
-              <a class="reset"
-                 href="javascript:parallelCoordinatesSelect.filterAll();dc.redrawAll();"
-                 style="visibility: hidden;">reset</a>
-             <p>Filter</p>
-            </div>
-          </div>
         </div>
    </div>
+ </div>
 
    <!-- Histogram - Number of Claims by Airline -->
+<div class="row">
      <div id="number-claims-by-airline-histogram">
           <strong>Number of Claims by Airline</strong>
           <a class="reset" href="javascript:numberClaimsByAirlineHistogram.filterAll();dc.redrawAll();" style="display: none;">reset</a>
@@ -123,9 +119,10 @@
             </div>
           </div>
      </div>
-
+</div>
 
 <!-- Line chart - Volume of Claims -->
+<div class="row">
     <div id="volume-claims-line">
         <strong>Volume of Claims</strong>
         <span class="reset" style="display: none;">range: <span class="filter"></span></span>
@@ -142,20 +139,23 @@
             </div>
           </div>
         </div>
-    </div>
 
   <!-- Linked bar chart to line chart -->
       <div id="volume-claims-line-slider">
       </div>
       <p class="muted pull-right" style="margin-right: 15px;"></p>
   <p style="padding-bottom:15px;">Note</p>
+</div>
+</div>
 
   <!-- Histogram - Number of Claims by Item Type -->
+<div class="row">
     <div id="number-of-claims-by-item-histogram">
          <strong>Number of Claims by Item Type</strong>
          <a class="reset" href="javascript:numberClaimsItemHistogram.filterAll();dc.redrawAll();" style="display: none;">reset</a>
          <div class="clearfix"></div>
          <div class="row">
+           <div id="number-claims-item-histogram-select">
              <div>
                <a class="reset"
                   href="javascript:numberClaimsItemHistogramSelect.filterAll();dc.redrawAll();"
@@ -163,6 +163,7 @@
               <p>Filter</p>
              </div>
          </div>
+       </div>
     </div>
 
 </div>
@@ -175,7 +176,34 @@
 
 
 <!-- JavaScript -->
+<script>
+'use strict';
 
+  /* Create chart objects */
+
+  // Airport Heatmap
+  var airportHeatmap = dc.heatMap('#heatmap');
+  var heatmapKey = dc.heatMap("#heatmapKey");
+  var heatSelect = dc.selectMenu('#heat-select');
+
+  // Percent of Denied Claims by Airport Histogram
+  var percentDeniedByAirportHistogram = dc.barChart('#percent-denied-claims-by-airport-histogram');
+  var percentDeniedByAirportSelect = dc.selectMenu('#percent-denied-by-airport-select');
+
+  //  Parallel coordinates - Correlations between Airport, Airline, Where Item was Lost, Close Amount and Disposition of Claim goes here
+
+  // Number of Claims by Airline Histogram
+  var numberClaimsByAirlineHistogram = dc.lineChart('#number-claims-by-airline-histogram');
+  var numberClaimsByAirlineSelect = dc.selectMenu('#number-claims-by-airline-select');
+
+  // Volume of Claims Line Chart
+  var volumeClaimsLine = dc.lineChart('#volume-claims-line');
+  var volumeClaimsLineSelect = dc.selectMenu('#volume-claims-line-select');
+  var volumeClaimsLineSlider = dc.barChart('#volume-claims-line-slider');
+
+  // Number of Claims by Item Type Histogram
+  var numberClaimsItemHistogram = dc.barChart('#number-of-claims-by-item-histogram');
+  var numberClaimsItemHistogramSelect = dc.selectMenu('#number-claims-item-histogram-select');
 
 
 <!-- Data Input -->
@@ -202,4 +230,5 @@
 <!-- Histogram - Number of Claims by Item Type -->
 
 
+</script>
 </body>
