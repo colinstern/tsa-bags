@@ -211,8 +211,25 @@
 
 <!-- Data Input -->
   d3.csv('data/claims-data-2015-as-of-feb-9-2016.csv', function(data) {
+        // Variable names
+        var var1 = "ClaimNumber";
+        var var2 = "DateReceived";
+        var var3 = "IncidentDate";
+        var var4 = "AirportCode";
+        var var5 = "AirportName";
+        var var6 = "AirlineName";
+        var var7 = "ClaimType";
+        var var8 = "ClaimSite";
+        var var9 = "ItemCategory";
+        var var10 = "CloseAmount";
+        var var11 = "Disposition";
+
+        data.forEach(function (d) {
+          d[var1]=+d[var1];
+        });
 
 <!-- CrossFilter -->
+
 
 
 <!-- HeatMap - Airports by Volume of Claims -->
