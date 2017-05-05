@@ -1,5 +1,21 @@
 <!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="css/dc.css" />
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+  <script src="js/d3.js"></script>
+  <script src="js/crossfilter.js"></script>
+  <script src="js/dc.js"></script>
+  <script src="js/reductio.js"></script>
+  <script src="js/universe.js"></script>
+  <script type="text/javascript" src="js/colorbrewer.js"></script>
+  <style>
+  </style>
+  <title>TSA Claims Dataset</title>
 
+</head>
+
+<body>
 <!-- CSS -->
 
 
@@ -7,7 +23,155 @@
 
 <!-- HTML -->
 
+<div class="container">
 
+  <h1>TSA Claims Dataset Metrics</h1>
+  <h4>By <a href="http://cstern.me/">Colin Stern</a></h4>
+
+
+  <!-- Number of selected records -->
+  <div class="row">
+      <div>
+          <div class="dc-data-count">
+              <span class="filter-count"></span> selected out of <span class="total-count"></span> records | <a
+                  href="javascript:dc.filterAll(); dc.renderAll();">Reset All</a>
+          </div>
+      </div>
+      <table class="table table-hover dc-data-table">
+      </table>
+  </div>
+  <div class="clearfix"></div>
+
+
+<!-- Heatmap - Airports by Volume of Claims-->
+<div class="row">
+  <div id="heatmap">
+       <strong>Airports by Volume of Claims</strong>
+       <a class="reset" href="javascript:heatMap.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+       <div class="clearfix"></div>
+       <div class="row">
+         <div id="heat-select">
+           <div>
+             <a class="reset"
+                href="javascript:heatSelect.filterAll();dc.redrawAll();"
+                style="visibility: hidden;">reset</a>
+            <p>Filter</p>
+           </div>
+         </div>
+       </div>
+   </div>
+</div>
+
+<!-- Heatmap key -->
+<div class="row">
+  <div id="heatmapKey">
+    <div class="clearfix"></div>
+  </div>
+  <p style="padding-bottom:15px;">Note</p>
+</div>
+
+
+<!-- Histogram - Percent of Denied Claims by Airport -->
+<div class="row">
+  <div id="percent-denied-claims-by-airport-histogram">
+       <strong>Percent of Denied Claims by Airport</strong>
+       <a class="reset" href="javascript:percentDeniedByAirportHistogram.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+       <div class="clearfix"></div>
+       <div class="row">
+         <div id="percent-denied-by-airport-select">
+           <div>
+             <a class="reset"
+                href="javascript:percentDeniedByAirportSelect.filterAll();dc.redrawAll();"
+                style="visibility: hidden;">reset</a>
+            <p>Filter</p>
+           </div>
+         </div>
+       </div>
+   </div>
+
+
+   <!--  Parallel coordinates - Correlations between Airport, Airline, Where Item was Lost, Close Amount and Disposition of Claim goes here -->
+   <div id="parallel-coordinates">
+        <strong>Correlations between Airport, Airline, Where Item was Lost, Close Amount and Disposition of Claim</strong>
+        <a class="reset" href="javascript:parallelCoordinates.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+        <div class="clearfix"></div>
+        <div class="row">
+          <div id="parallel-coordinates-select">
+            <div>
+              <a class="reset"
+                 href="javascript:parallelCoordinatesSelect.filterAll();dc.redrawAll();"
+                 style="visibility: hidden;">reset</a>
+             <p>Filter</p>
+            </div>
+          </div>
+        </div>
+   </div>
+
+   <!-- Histogram - Number of Claims by Airline -->
+     <div id="number-claims-by-airline-histogram">
+          <strong>Number of Claims by Airline</strong>
+          <a class="reset" href="javascript:numberClaimsByAirlineHistogram.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+          <div class="clearfix"></div>
+          <div class="row">
+            <div id="number-claims-by-airline-select">
+              <div>
+                <a class="reset"
+                   href="javascript:numberClaimsByAirlineSelect.filterAll();dc.redrawAll();"
+                   style="visibility: hidden;">reset</a>
+               <p>Filter</p>
+              </div>
+            </div>
+          </div>
+     </div>
+
+
+<!-- Line chart - Volume of Claims -->
+    <div id="volume-claims-line">
+        <strong>Volume of Claims</strong>
+        <span class="reset" style="display: none;">range: <span class="filter"></span></span>
+        <a class="reset" href="javascript:volumeClaimsLine.filterAll();likeChart.filterAll();dc.redrawAll();"
+           style="display: none;">reset</a>
+        <div class="clearfix"></div>
+        <div class="row">
+          <div id="volume-claims-line-select">
+            <div>
+              <a class="reset"
+                 href="javascript:volumeClaimsLineSelect.filterAll();dc.redrawAll();"
+                 style="visibility: hidden;">reset</a>
+             <p>Filter</p>
+            </div>
+          </div>
+        </div>
+    </div>
+
+  <!-- Linked bar chart to line chart -->
+      <div id="volume-claims-line-slider">
+      </div>
+      <p class="muted pull-right" style="margin-right: 15px;"></p>
+  <p style="padding-bottom:15px;">Note</p>
+
+  <!-- Histogram - Number of Claims by Item Type -->
+    <div id="number-of-claims-by-item-histogram">
+         <strong>Number of Claims by Item Type</strong>
+         <a class="reset" href="javascript:numberClaimsItemHistogram.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+         <div class="clearfix"></div>
+         <div class="row">
+             <div>
+               <a class="reset"
+                  href="javascript:numberClaimsItemHistogramSelect.filterAll();dc.redrawAll();"
+                  style="visibility: hidden;">reset</a>
+              <p>Filter</p>
+             </div>
+         </div>
+    </div>
+
+</div>
+
+<div class="row">
+  <p style="padding-bottom:15px;">Note</p>
+</div>
+
+</div>
 
 
 <!-- JavaScript -->
@@ -36,3 +200,6 @@
 
 
 <!-- Histogram - Number of Claims by Item Type -->
+
+
+</body>
