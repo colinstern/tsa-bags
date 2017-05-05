@@ -181,6 +181,9 @@
 
   /* Create chart objects */
 
+  /* count selected records */
+  var claimsCount = dc.dataCount('.dc-data-count');
+
   // Airport Heatmap
   var airportHeatmap = dc.heatMap('#heatmap');
   var heatmapKey = dc.heatMap("#heatmapKey");
@@ -207,7 +210,7 @@
 
 
 <!-- Data Input -->
-
+  d3.csv('data/claims-data-2015-as-of-feb-9-2016.csv', function(data) {
 
 <!-- CrossFilter -->
 
@@ -229,6 +232,9 @@
 
 <!-- Histogram - Number of Claims by Item Type -->
 
+
+// end of data input callback
+  });
 
 </script>
 </body>
