@@ -179,38 +179,42 @@
 <script>
 'use strict';
 
+  /* Parse and format */
+  <!-- Parsing Dates -->
+  var dateParser = d3.time.format("%d-%b-%y").parse;
+
   /* Create chart objects */
 
   /* count selected records */
   var claimsCount = dc.dataCount('.dc-data-count');
 
   // Airport Heatmap
-  var airportHeatmap = dc.heatMap('#heatmap');
-  var heatmapKey = dc.heatMap("#heatmapKey");
-  var heatSelect = dc.selectMenu('#heat-select');
+  // var airportHeatmap = dc.heatMap('#heatmap');
+  // var heatmapKey = dc.heatMap("#heatmapKey");
+  // var heatSelect = dc.selectMenu('#heat-select');
 
   // Percent of Denied Claims by Airport Histogram
   var percentDeniedByAirportHistogram = dc.barChart('#percent-denied-claims-by-airport-histogram');
-  var percentDeniedByAirportSelect = dc.selectMenu('#percent-denied-by-airport-select');
+  // var percentDeniedByAirportSelect = dc.selectMenu('#percent-denied-by-airport-select');
 
   //  Parallel coordinates - Correlations between Airport, Airline, Where Item was Lost, Close Amount and Disposition of Claim goes here
 
   // Number of Claims by Airline Histogram
-  var numberClaimsByAirlineHistogram = dc.lineChart('#number-claims-by-airline-histogram');
-  var numberClaimsByAirlineSelect = dc.selectMenu('#number-claims-by-airline-select');
+  // var numberClaimsByAirlineHistogram = dc.lineChart('#number-claims-by-airline-histogram');
+  // var numberClaimsByAirlineSelect = dc.selectMenu('#number-claims-by-airline-select');
 
   // Volume of Claims Line Chart
   var volumeClaimsLine = dc.lineChart('#volume-claims-line');
-  var volumeClaimsLineSelect = dc.selectMenu('#volume-claims-line-select');
-  var volumeClaimsLineSlider = dc.barChart('#volume-claims-line-slider');
+  // var volumeClaimsLineSelect = dc.selectMenu('#volume-claims-line-select');
+  // var volumeClaimsLineSlider = dc.barChart('#volume-claims-line-slider');
 
   // Number of Claims by Item Type Histogram
-  var numberClaimsItemHistogram = dc.barChart('#number-of-claims-by-item-histogram');
-  var numberClaimsItemHistogramSelect = dc.selectMenu('#number-claims-item-histogram-select');
+  // var numberClaimsItemHistogram = dc.barChart('#number-of-claims-by-item-histogram');
+  // var numberClaimsItemHistogramSelect = dc.selectMenu('#number-claims-item-histogram-select');
 
 
 <!-- Data Input -->
-  d3.csv('data/claims-data-2015-as-of-feb-9-2016.csv', function(data) {
+  d3.csv('data/test-set.csv', function(data) {
         // Variable names
         var var1 = "ClaimNumber";
         var var2 = "DateReceived";
@@ -227,55 +231,102 @@
         data.forEach(function (d) {
           d[var1]=+d[var1];
           d[var11]=+d[var11];
+
+          // Calculate date of claim
+          d.claimDate = dateParser(d[var2]);
+          d.claimMonth = d3.time.month(d.claimDate);
         });
 
 <!-- CrossFilter -->
 var ndx = crossfilter(data),
+    all = ndx.groupAll(),
     heatmapAirportsDim = ndx.dimension(function(d) {return d[var4];}),
     histogramAirportsDim = ndx.dimension(function(d) {return d[var4];}),
-    // parallel corrdinates dimension
+    // parallel coordinates dimension
     histogramAirlineDim = ndx.dimension(function(d) {return d[var6];}),
-    lineClaimsDim = ndx.dimension(function(d) {return d[var1];}),
+    lineClaimsDim = ndx.dimension(function(d) {return d.claimMonth;}),
     histogramItemDim = ndx.dimension(function(d) {return d[var9];}),
 
     heatmapAirportsGroup = heatmapAirportsDim.group(),
     histogramAirportsGroup = histogramAirportsDim.group().reduce(
       function (p, v) {
-        p.denied += v[var11];
+        ++p.count;
+        p.sum += v[var11];
+        p.average = Math.round(p.sum / p.count);
+        return p;
       },
       function (p, v) {
-        p.denied -= v[var11];
+        --p.count;
+        p.sum -= v[var11];
+        p.average = Math.round(p.sum / p.count);
+        return p;
       },
       function () {
         return {
-          denied: 0
+          count: 0,
+          sum: 0,
+          avg: 0
         };
       }
     ),
-    //parellel coordinates
+    //parallel coordinates
     histogramAirlineGroup = histogramAirlineDim.group().reduce(
       function (p, v) {
-        p.denied += v[var11];
+        ++p.count;
+        return p;
       },
       function (p, v) {
-        p.denied -= v[var11];
+        --p.count;
+        return p;
       },
       function () {
         return {
-          denied: 0
+          count: 0
         };
       }
     ),
-    lineClaimsGroup = lineClaimsDim.group().reduceSum(function(d) {return 1;}),
+    lineClaimsGroup = lineClaimsDim.group().reduce(
+      function (p, v) {
+        ++p.count;
+        p.sum += v[var11];
+        p.average = Math.round(p.sum / p.count);
+        return p;
+      },
+      function (p, v) {
+        --p.count;
+        p.sum -= v[var11];
+        p.average = Math.round(p.sum / p.count);
+        return p;
+      },
+      function () {
+        return {
+          count: 0,
+          sum: 0,
+          avg: 0
+        };
+      }
+    ),
     histogramItemGroup = histogramItemDim.group();
-
-
 
 <!-- HeatMap - Airports by Volume of Claims -->
 
 
 <!-- Histogram - Percent of Denied Claims by Airport -->
-
+percentDeniedByAirportHistogram
+    .width(300)
+    .height(200)
+    .dimension(histogramAirportsDim)
+    .group(histogramAirportsGroup)
+    .yAxisLabel("Percent of Claims Denied")
+    .xAxisLabel("Airport")
+    // due to 0 to 100 percent range of denied claims
+    .x(d3.scale.linear().domain([0, 100]))
+    .valueAccessor(function (d) { return d.value.average;  })
+    .keyAccessor(function(d) { return d.key; })
+    .centerBar(false)
+    .elasticX(true)
+    .elasticY(true);
+  percentDeniedByAirportHistogram.yAxis().ticks(6);
 
 <!-- Parallel Coordinates - Correlations between Airport, Airline, Where Item was Lost, Close Amount and Disposition of Claim -->
 
@@ -284,10 +335,40 @@ var ndx = crossfilter(data),
 
 
 <!-- Line chart - Volume of Claims: -->
+volumeClaimsLine
+  .width(700)
+  .height(200)
+  // .chart(function(c) { return dc.lineChart(c).interpolate('linear');})
+  .x(d3.time.scale().domain([new Date(2015, 0, 1), new Date(2015, 11, 31)]))
+  // .xUnits(dc.units.ordinal)
+  .yAxisLabel("Number of claims")
+  .xAxisLabel('Date')
+  .elasticY(true)
+  .dimension(lineClaimsDim)
+  .group(lineClaimsGroup)
+  .valueAccessor(function (d) {return d.value.count;})
+  .keyAccessor(function(d) {return d.key;})
+  .renderHorizontalGridLines(true)
+  .legend(dc.legend().x(600).y(0).itemHeight(10).gap(3).horizontal(2).legendWidth(140).itemWidth(40));
+volumeClaimsLine.yAxis().ticks(6);
 
 
 <!-- Histogram - Number of Claims by Item Type -->
 
+<!-- Count selected records widget -->
+
+claimsCount
+    .dimension(ndx)
+    .group(all)
+    .html({
+        some: '<strong>%filter-count</strong> selected out of <strong>%total-count</strong> records' +
+            ' | <a href=\'javascript:dc.filterAll(); dc.renderAll();\'>Reset All</a>',
+        all: 'All records selected. Please click on the graph to apply filters.'
+    });
+
+
+<!-- Render -->
+dc.renderAll();
 
 // end of data input callback
   });
