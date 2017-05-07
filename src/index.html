@@ -226,9 +226,48 @@
 
         data.forEach(function (d) {
           d[var1]=+d[var1];
+          d[var11]=+d[var11];
         });
 
 <!-- CrossFilter -->
+var ndx = crossfilter(data),
+    heatmapAirportsDim = ndx.dimension(function(d) {return d[var4];}),
+    histogramAirportsDim = ndx.dimension(function(d) {return d[var4];}),
+    // parallel corrdinates dimension
+    histogramAirlineDim = ndx.dimension(function(d) {return d[var6];}),
+    lineClaimsDim = ndx.dimension(function(d) {return d[var1];}),
+    histogramItemDim = ndx.dimension(function(d) {return d[var9];}),
+
+    heatmapAirportsGroup = heatmapAirportsDim.group(),
+    histogramAirportsGroup = histogramAirportsDim.group().reduce(
+      function (p, v) {
+        p.denied += v[var11];
+      },
+      function (p, v) {
+        p.denied -= v[var11];
+      },
+      function () {
+        return {
+          denied: 0
+        };
+      }
+    ),
+    //parellel coordinates
+    histogramAirlineGroup = histogramAirlineDim.group().reduce(
+      function (p, v) {
+        p.denied += v[var11];
+      },
+      function (p, v) {
+        p.denied -= v[var11];
+      },
+      function () {
+        return {
+          denied: 0
+        };
+      }
+    ),
+    lineClaimsGroup = lineClaimsDim.group().reduceSum(function(d) {return 1;}),
+    histogramItemGroup = histogramItemDim.group();
 
 
 
