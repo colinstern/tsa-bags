@@ -98,6 +98,7 @@
         <a class="reset" href="javascript:parallelCoordinates.filterAll();dc.redrawAll();" style="display: none;">reset</a>
         <div class="clearfix"></div>
         <div class="row">
+               <p>Filter</p>
         </div>
    </div>
  </div>
@@ -161,7 +162,7 @@
                   href="javascript:numberClaimsItemHistogramSelect.filterAll();dc.redrawAll();"
                   style="visibility: hidden;">reset</a>
               <p>Filter</p>
-             </div>
+             </div>	
          </div>
        </div>
     </div>
@@ -183,6 +184,9 @@
   <!-- Parsing Dates -->
   var dateParser = d3.time.format("%d-%b-%y").parse;
 
+  // Formatting axes
+  var percentFormat = d3.format(".0%");
+
   /* Create chart objects */
 
   /* count selected records */
@@ -200,7 +204,7 @@
   //  Parallel coordinates - Correlations between Airport, Airline, Where Item was Lost, Close Amount and Disposition of Claim goes here
 
   // Number of Claims by Airline Histogram
-  // var numberClaimsByAirlineHistogram = dc.lineChart('#number-claims-by-airline-histogram');
+  var numberClaimsByAirlineHistogram = dc.barChart('#number-claims-by-airline-histogram');
   // var numberClaimsByAirlineSelect = dc.selectMenu('#number-claims-by-airline-select');
 
   // Volume of Claims Line Chart
@@ -252,13 +256,13 @@ var ndx = crossfilter(data),
       function (p, v) {
         ++p.count;
         p.sum += v[var11];
-        p.average = Math.round(p.sum / p.count);
+        p.avg = (p.sum / p.count);
         return p;
       },
       function (p, v) {
         --p.count;
         p.sum -= v[var11];
-        p.average = Math.round(p.sum / p.count);
+        p.avg = (p.sum / p.count);
         return p;
       },
       function () {
@@ -289,13 +293,13 @@ var ndx = crossfilter(data),
       function (p, v) {
         ++p.count;
         p.sum += v[var11];
-        p.average = Math.round(p.sum / p.count);
+        p.avg = (p.sum / p.count);
         return p;
       },
       function (p, v) {
         --p.count;
         p.sum -= v[var11];
-        p.average = Math.round(p.sum / p.count);
+        p.avg = (p.sum / p.count);
         return p;
       },
       function () {
@@ -320,18 +324,34 @@ percentDeniedByAirportHistogram
     .yAxisLabel("Percent of Claims Denied")
     .xAxisLabel("Airport")
     // due to 0 to 100 percent range of denied claims
-    .x(d3.scale.linear().domain([0, 100]))
-    .valueAccessor(function (d) { return d.value.average;  })
+    .x(d3.scale.ordinal().domain(function(d) {return d.key;}))
+    .valueAccessor(function (d) { return d.value.avg;})
     .keyAccessor(function(d) { return d.key; })
     .centerBar(false)
     .elasticX(true)
-    .elasticY(true);
+    .elasticY(true)
+    .xUnits(dc.units.ordinal);
   percentDeniedByAirportHistogram.yAxis().ticks(6);
-
+  percentDeniedByAirportHistogram.yAxis().tickFormat(percentFormat);
 <!-- Parallel Coordinates - Correlations between Airport, Airline, Where Item was Lost, Close Amount and Disposition of Claim -->
 
 
 <!-- Histogram - Number of Claims by Airline -->
+numberClaimsByAirlineHistogram
+  .width(900)
+  .height(200)
+  .dimension(histogramAirlineDim)
+  .group(histogramAirlineGroup)
+  .yAxisLabel("Number of Claims")
+  .xAxisLabel("Airline")
+  .x(d3.scale.ordinal().domain(function(d) {return d.key;}))
+  .valueAccessor(function (d) { return d.value.count;})
+  .keyAccessor(function(d) { return d.key; })
+  .elasticX(true)
+  .elasticY(true)
+  .xUnits(dc.units.ordinal);
+  // .valueAccessor(function (d) { return d.value.count;  })
+  // .keyAccessor(function(d) { return d.key; });
 
 
 <!-- Line chart - Volume of Claims: -->
@@ -341,7 +361,7 @@ volumeClaimsLine
   // .chart(function(c) { return dc.lineChart(c).interpolate('linear');})
   .x(d3.time.scale().domain([new Date(2015, 0, 1), new Date(2015, 11, 31)]))
   // .xUnits(dc.units.ordinal)
-  .yAxisLabel("Number of claims")
+  .yAxisLabel("Number of Claims")
   .xAxisLabel('Date')
   .elasticY(true)
   .dimension(lineClaimsDim)
