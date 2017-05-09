@@ -258,15 +258,21 @@ var ndx = crossfilter(data),
     heatmapAirportsGroup = heatmapAirportsDim.group().reduce(
       function (p, v) {
         ++p.count;
+        p.lat = v[var12];
+        p.long = v[var13];
         return p;
       },
       function (p, v) {
         --p.count;
+        p.lat = v[var12];
+        p.long = v[var13];
         return p;
       },
       function () {
         return {
-          count: 0
+          count: 0,
+          lat: 0,
+          long: 0
         };
       }
     ),
@@ -332,7 +338,7 @@ var ndx = crossfilter(data),
 
 
 // airportHeatmap is moved to end of file due to call to renderAll within the JSON callback
-
+console.log(heatmapAirportsGroup.top(Infinity));
 
 
 
@@ -425,13 +431,13 @@ d3.json("/json/us-states.json", function (statesJson) {
             return d.properties.name;
         })
         .valueAccessor(function(kv) {
-            // console.log(kv);
+            console.log(kv);
             return kv.value.count;
         })	
         .title(function (d) {
-        	// console.log(heatmapAirportsGroup.top(Infinity));
+        	
         	// console.log(d);
-                        return "Airport: " + d.key + "\nTotal Claims: " + (d.value ? d.value : 0);
+                        return "State: " + d.key;
         })
         .on("renderlet", drawAdditionalStuffInMap);		
 
@@ -445,28 +451,50 @@ d3.json("/json/us-states.json", function (statesJson) {
 		        group = svg.append("g").classed("additionalStuff", true);
 		    }
 
+            var proj = airportHeatmap.geoPath().projection();
+            var nodes = group.selectAll("circle").data(heatmapAirportsGroup.top(Infinity),
+            	function(d) {
+            		var posn = proj([d.value.long, d.value.lat]);
+            		console.log(posn);
+            		return [posn[0], posn[1], d.value.count];
+            	})	
+
+            // nodes.enter()
+            // 	.append("circle")
+            		// .attr("x", function(d){return d[0]})
+            		// .attr("y", function(d){return d[1]})
 		    //you need to implement calculateAdditionalDataPoints
-		    var additionalData = calculateAdditionalDataPoints();
-		    var additionalNodes = group.selectAll("circle").data(additionalData, function(x) { return x.id; });
+		    // var additionalData = calculateAdditionalDataPoints();
+		    // var additionalNodes = group.selectAll("circle").data(additionalData, function(x) { return x.id; });
 
-		    _chart.dimension().top(Infinity).map(function(d) {
-		            d.location = proj([d.Long, d.Lat]);
-		            return d;
-		    });
 
-		    additionalNodes.enter()
+		    // _chart.dimension().top(Infinity).map(function(d) {
+		    //         d.location = proj([d.Long, d.Lat]);
+		    //         return d;
+		    // });
+
+
+		    // });
+
+		    nodes.enter()
 		        .append("circle")
 		            .attr("x", 0)
 		            .attr("y", 0)
-		            .attr("r", 100)
-		            .attr("transform", function(d){ return "translate(" + d.location[0] + "," + d.location[1] + ")"; });
+		            .attr("r", function(d) {return d.value.count})
+		            .attr("transform", function(d){
+		             var posn = proj([d.value.long, d.value.lat]);
+		             console.log(d); 
+		             return "translate(" + posn[0] + "," + posn[1] + ")"; })
+	            .append("title")
+				  .text(function(d) { return d.value.count + " claims"; });;
 
-		    additionalNodes.exit().remove();
+		    nodes.exit().remove();
 }	
 
 
 	<!-- Render -->
 	dc.renderAll();
+	console.log(airportHeatmap.geoPath().projection());
 });
 
 
