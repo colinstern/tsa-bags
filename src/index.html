@@ -193,7 +193,7 @@
   var claimsCount = dc.dataCount('.dc-data-count');
 
   // Airport Heatmap
-  // var airportHeatmap = dc.heatMap('#heatmap');
+  var airportHeatmap = dc.geoChoroplethChart('#heatmap');
   // var heatmapKey = dc.heatMap("#heatmapKey");
   // var heatSelect = dc.selectMenu('#heat-select');
 
@@ -231,10 +231,14 @@
         var var9 = "ItemCategory";
         var var10 = "CloseAmount";
         var var11 = "Disposition";
+        var var12 = "Lat";
+        var var13 = "Long";
 
         data.forEach(function (d) {
           d[var1]=+d[var1];
           d[var11]=+d[var11];
+          d[var12]=+d[var12];
+          d[var13]=+d[var13];
 
           // Calculate date of claim
           d.claimDate = dateParser(d[var2]);
@@ -251,7 +255,21 @@ var ndx = crossfilter(data),
     lineClaimsDim = ndx.dimension(function(d) {return d.claimMonth;}),
     histogramItemDim = ndx.dimension(function(d) {return d[var9];}),
 
-    heatmapAirportsGroup = heatmapAirportsDim.group(),
+    heatmapAirportsGroup = heatmapAirportsDim.group().reduce(
+      function (p, v) {
+        ++p.count;
+        return p;
+      },
+      function (p, v) {
+        --p.count;
+        return p;
+      },
+      function () {
+        return {
+          count: 0
+        };
+      }
+    ),
     histogramAirportsGroup = histogramAirportsDim.group().reduce(
       function (p, v) {
         ++p.count;
@@ -312,7 +330,12 @@ var ndx = crossfilter(data),
     ),
     histogramItemGroup = histogramItemDim.group();
 
-<!-- HeatMap - Airports by Volume of Claims -->
+
+// airportHeatmap is moved to end of file due to call to renderAll within the JSON callback
+
+
+
+
 
 
 <!-- Histogram - Percent of Denied Claims by Airport -->
@@ -387,8 +410,65 @@ claimsCount
     });
 
 
-<!-- Render -->
-dc.renderAll();
+d3.json("/json/us-states.json", function (statesJson) {
+
+	<!-- HeatMap - Airports by Volume of Claims -->
+	airportHeatmap
+		.width(990)
+		.height(500)
+		.dimension(heatmapAirportsDim)
+		.group(heatmapAirportsGroup)
+		.colors(d3.scale.quantize().range(["#E2F2FF", "#C4E4FF", "#9ED2FF", "#81C5FF", "#6BBAFF", "#51AEFF", "#36A2FF", "#1E96FF", "#0089FF", "#0061B5"]))
+	    .colorDomain([0, 200])
+	    .colorCalculator(function (d) { return d ? airportHeatmap.colors()(d) : '#ccc'; })
+        .overlayGeoJson(statesJson.features, "state", function (d) {
+            return d.properties.name;
+        })
+        .valueAccessor(function(kv) {
+            // console.log(kv);
+            return kv.value.count;
+        })	
+        .title(function (d) {
+        	// console.log(heatmapAirportsGroup.top(Infinity));
+        	// console.log(d);
+                        return "Airport: " + d.key + "\nTotal Claims: " + (d.value ? d.value : 0);
+        })
+        .on("renderlet", drawAdditionalStuffInMap);		
+
+        function drawAdditionalStuffInMap(_chart, selection) {
+		    var svg = _chart.svg();
+		    svg.selectAll("g.additionalStuff").remove();
+
+		    var group = svg.selectAll("g.additionalStuff");
+
+		    if (group.empty()) {
+		        group = svg.append("g").classed("additionalStuff", true);
+		    }
+
+		    //you need to implement calculateAdditionalDataPoints
+		    var additionalData = calculateAdditionalDataPoints();
+		    var additionalNodes = group.selectAll("circle").data(additionalData, function(x) { return x.id; });
+
+		    _chart.dimension().top(Infinity).map(function(d) {
+		            d.location = proj([d.Long, d.Lat]);
+		            return d;
+		    });
+
+		    additionalNodes.enter()
+		        .append("circle")
+		            .attr("x", 0)
+		            .attr("y", 0)
+		            .attr("r", 100)
+		            .attr("transform", function(d){ return "translate(" + d.location[0] + "," + d.location[1] + ")"; });
+
+		    additionalNodes.exit().remove();
+}	
+
+
+	<!-- Render -->
+	dc.renderAll();
+});
+
 
 // end of data input callback
   });
