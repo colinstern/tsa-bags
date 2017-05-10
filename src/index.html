@@ -218,7 +218,7 @@
 
 
 <!-- Data Input -->
-  d3.csv('data/test-set.csv', function(data) {
+  d3.csv('data/claims-data-2015-as-of-feb-9-2016-ADDEDLATLONG.csv', function(data) {
         // Variable names
         var var1 = "ClaimNumber";
         var var2 = "DateReceived";
@@ -272,7 +272,7 @@ var ndx = crossfilter(data),
         return {
           count: 0,
           lat: 0,
-          long: 0
+          long: 0,
         };
       }
     ),
@@ -338,7 +338,7 @@ var ndx = crossfilter(data),
 
 
 // airportHeatmap is moved to end of file due to call to renderAll within the JSON callback
-console.log(heatmapAirportsGroup.top(Infinity));
+// console.log(heatmapAirportsGroup.top(Infinity));
 
 
 
@@ -455,8 +455,13 @@ d3.json("/json/us-states.json", function (statesJson) {
             var nodes = group.selectAll("circle").data(heatmapAirportsGroup.top(Infinity),
             	function(d) {
             		var posn = proj([d.value.long, d.value.lat]);
-            		console.log(posn);
-            		return [posn[0], posn[1], d.value.count];
+            		console.log(posn); 
+            		if (posn !== null) {
+            			return [posn[0], posn[1], d.value.count];
+            		}
+            		else {
+            			return [0,0,0];
+            		}
             	})	
 
             // nodes.enter()
@@ -477,16 +482,24 @@ d3.json("/json/us-states.json", function (statesJson) {
 		    // });
 
 		    nodes.enter()
-		        .append("circle")
+		        .append("svg:image")
 		            .attr("x", 0)
 		            .attr("y", 0)
-		            .attr("r", function(d) {return d.value.count})
+		            .attr('width', function(d) {return 3*Math.sqrt(d.value.count)})
+				   	.attr('height', function(d) {return 3*Math.sqrt(d.value.count)	})
+				   	.attr("xlink:href","img/airplane-shape.svg")
+		            // .attr("r", function(d) {return d.value.count})
 		            .attr("transform", function(d){
 		             var posn = proj([d.value.long, d.value.lat]);
 		             console.log(d); 
-		             return "translate(" + posn[0] + "," + posn[1] + ")"; })
+		             if (posn !== null) {
+		           	  return "translate(" + posn[0] + "," + posn[1] + ")"; 
+		        	 }
+		        	 else {
+		        	 	return "translate(" + 120 + "," + 200 + ")";
+		        	 }})
 	            .append("title")
-				  .text(function(d) { return d.value.count + " claims"; });;
+				  .text(function(d) { return "\n" +d.key+"\n"+d.value.count + " claims"; });;
 
 		    nodes.exit().remove();
 }	
