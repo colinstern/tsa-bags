@@ -161,7 +161,7 @@
     </div>
 
 </div>
-<p style="padding-bottom:15px;">​The pie chart shows the breakdown of claims which had a given category of item. Airlines seem to lose a lot of <b>clothing</b>, and not a lot of <b>cameras</b>. So bring <b>clothing</b> in your carry-on instead! Of course, keep in mind that the data is not normalized by the total amount of each item put into checked baggage in 2015.</p>
+<p style="padding-bottom:15px;">​The pie chart shows the breakdown of claims which had a given category of item. Airlines seem to lose a lot of <b>clothing</b>, and not a lot of <b>cameras</b>. So bring <b>clothing</b> in your carry-on instead! Of course, keep in mind that the data is not normalized by the total amount of each item put into checked baggage in 2015. Additionally, clicking on an item type does not select it in the other visualizatons; however, selections in other visualizations are shown here.</p>
 
 
 <!-- Histogram - Percent of Denied Claims by Airport -->
@@ -660,7 +660,7 @@ claimsCount
     });
 
 
-d3.json("/json/us-states.json", function (statesJson) {
+d3.json("./json/us-states.json", function (statesJson) {
 
 	<!-- HeatMap - Airports by Volume of Claims -->
 	airportHeatmap
