@@ -549,12 +549,12 @@ numberClaimsItemHistogram
     .group(fakeGroup)
      .title(function(d) {return d.key + ": " + d.value + " claims"})
      .width(768)
-          .height(480)
-          .innerRadius(100)
-          .externalLabels(50)
-          .externalRadiusPadding(50)
-          .legend(dc.legend())
-          .label(function(d) {return ""});
+		  .height(480)
+		  .innerRadius(100)			
+		  .externalLabels(50)
+		  .externalRadiusPadding(50)
+		  .legend(dc.legend())
+		  .label(function(d) {return ""});
 
 numberClaimsItemHistogram.on('pretransition', function(chart) {
           chart.selectAll('.dc-legend-item text')
@@ -562,7 +562,7 @@ numberClaimsItemHistogram.on('pretransition', function(chart) {
             .append('tspan')
               .text(function(d) { return d.name; })
             .append('tspan')
-              .attr('x', 100)
+              .attr('x', 150)
               .attr('text-anchor', 'end')
               .text(function(d) { return d.data; });
                });
