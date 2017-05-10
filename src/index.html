@@ -134,7 +134,6 @@
       <div id="volume-claims-line-slider">
       </div>
       <p class="muted pull-right" style="margin-right: 15px;"></p>
-  <p style="padding-bottom:15px;">Note</p>
 </div>
 </div>
 
@@ -432,7 +431,7 @@ numberClaimsByAirlineHistogram
 
 <!-- Line chart - Volume of Claims: -->
 volumeClaimsLine
-  .width(900)
+  .width(1250)
   .height(200)
   // .chart(function(c) { return dc.lineChart(c).interpolate('linear');})
   .x(d3.time.scale().domain([new Date(2015, 0, 1), new Date(2015, 11, 31)]))
@@ -444,8 +443,8 @@ volumeClaimsLine
   .group(lineClaimsGroup)
   .valueAccessor(function (d) {return d.value.count;})
   .keyAccessor(function(d) {return d.key;})
-  .renderHorizontalGridLines(true)
-  .legend(dc.legend().x(600).y(0).itemHeight(10).gap(3).horizontal(2).legendWidth(140).itemWidth(40));
+  .renderHorizontalGridLines(true);
+  // .legend(dc.legend().x(600).y(0).itemHeight(10).gap(3).horizontal(2).legendWidth(140).itemWidth(40));
 volumeClaimsLine.yAxis().ticks(6);
 
 
