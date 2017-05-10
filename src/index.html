@@ -28,7 +28,7 @@
   <h4>By <a href="http://cstern.me/">Colin Stern</a></h4>
 
   <h3>Time for a Vacation</h3>
-  <div><span>​You're taking some much needed time off work and you're planning to spend it in Miami, lounging on the beach sipping margaritas. However, since you don't live anywhere near Miami, <b>you're going to need to take a flight</b>.</span> </div>
+  <div><span>​You're taking some much needed time off from work in Ney York City and you're planning to spend it in Miami, lounging on the beach sipping margaritas. However, since you don't live anywhere near Miami, <b>you're going to need to take a flight</b>.</span> </div>
   <img class="center-block" src="img/airplane-shape.svg" alt="View" style="width:100;height:100px;">
   <div> However, you want this flight to be as stress-free as possible - you've dealt with plenty of stress at work. You decide that losing bags is one of the most stressful experiences that could happen on your flight, so you decide to try to <b>minimize the possibility</b>.
   </div>
@@ -36,6 +36,8 @@
   <div> After some googling, you find historical records of claims from passengers sent to the TSA asking for compensation for lost or damaged bags. Using the data, you decide to plan your trip to avoid the airports and airlines which are most likely to ruin your trip by losing your bag. <b>Which airports and airlines should you avoid, and which should you take?</b></div>
     <img class="center-block" src="img/takeoff-the-plane.svg" alt="View" style="width:140;height:140px;">
     </span>
+
+  <div>Let's take a look at the <b>worst offending airports....</b></div>
   <!-- Number of selected records -->
   <div class="row">
       <div>
@@ -62,41 +64,21 @@
              <a class="reset"
                 href="javascript:heatSelect.filterAll();dc.redrawAll();"
                 style="visibility: hidden;">reset</a>
-            <p>Filter</p>
            </div>
          </div>
        </div>
    </div>
 </div>
+
+  <p>​Clearly, <b>JFK</b> and <b>LaGuardia</b> lose the most bags of any airports in the area, while <b>Westchester County Airport</b> and <b>Stewart International Airport</b> are better alternatives.</p>
+
 
 <!-- Heatmap key -->
 <div class="row">
   <div id="heatmapKey">
     <div class="clearfix"></div>
   </div>
-  <p style="padding-bottom:15px;">Note</p>
 </div>
-
-
-<!-- Histogram - Percent of Denied Claims by Airport -->
-<div class="row">
-  <div id="percent-denied-claims-by-airport-histogram">
-       <strong>Percent of Denied Claims by Airport</strong>
-       <a class="reset" href="javascript:percentDeniedByAirportHistogram.filterAll();dc.redrawAll();" style="display: none;">reset</a>
-       <div class="clearfix"></div>
-       <div class="row">
-         <div id="percent-denied-by-airport-select">
-           <div>
-             <a class="reset"
-                href="javascript:percentDeniedByAirportSelect.filterAll();dc.redrawAll();"
-                style="visibility: hidden;">reset</a>
-            <p>Filter</p>
-           </div>
-         </div>
-       </div>
-   </div>
- </div>
-
 
    <!--  Parallel coordinates - Correlations between Airport, Airline, Where Item was Lost, Close Amount and Disposition of Claim goes here -->
 <div class="row">
@@ -105,12 +87,12 @@
         <a class="reset" href="javascript:parallelCoordinates.filterAll();dc.redrawAll();" style="display: none;">reset</a>
         <div class="clearfix"></div>
         <div class="row">
-               <p>Filter</p>
         </div>
    </div>
  </div>
 
    <!-- Histogram - Number of Claims by Airline -->
+   <p>​Now let's look at the <b>airlines...</b></p>
 <div class="row">
      <div id="number-claims-by-airline-histogram">
           <strong>Number of Claims by Airline</strong>
@@ -122,12 +104,12 @@
                 <a class="reset"
                    href="javascript:numberClaimsByAirlineSelect.filterAll();dc.redrawAll();"
                    style="visibility: hidden;">reset</a>
-               <p>Filter</p>
               </div>
             </div>
           </div>
      </div>
 </div>
+<p style="padding-bottom:15px;">Our data says that <b>Southwest</b> and <b>Delta</b> lose the most bags, while <b>Virgin America</b> and <b>Emirates</b> are better alternatives.</p>
 
 <!-- Line chart - Volume of Claims -->
 <div class="row">
@@ -143,7 +125,6 @@
               <a class="reset"
                  href="javascript:volumeClaimsLineSelect.filterAll();dc.redrawAll();"
                  style="visibility: hidden;">reset</a>
-             <p>Filter</p>
             </div>
           </div>
         </div>
@@ -156,6 +137,26 @@
 </div>
 </div>
 
+<!-- Histogram - Percent of Denied Claims by Airport -->
+<p style="padding-bottom:15px;">But what happens if you <i>do</i> lose your bags? Which airport is <b>most likely to compensate you?</b></p>
+<div class="row">
+  <div id="percent-denied-claims-by-airport-histogram">
+       <strong>Percent of Denied Claims by Airport</strong>
+       <a class="reset" href="javascript:percentDeniedByAirportHistogram.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+       <div class="clearfix"></div>
+       <div class="row">
+         <div id="percent-denied-by-airport-select">
+           <div>
+             <a class="reset"
+                href="javascript:percentDeniedByAirportSelect.filterAll();dc.redrawAll();"
+                style="visibility: hidden;">reset</a>
+           </div>
+         </div>
+       </div>
+   </div>
+ </div>
+
+ <p style="padding-bottom:15px;">JFK denies 60% of claims, which is about average. Meanwhile, Westchester County Airport denies 75% of claims and 
   <!-- Histogram - Number of Claims by Item Type -->
 <div class="row">
     <div id="number-of-claims-by-item-histogram">
@@ -168,7 +169,6 @@
                <a class="reset"
                   href="javascript:numberClaimsItemHistogramSelect.filterAll();dc.redrawAll();"
                   style="visibility: hidden;">reset</a>
-              <p>Filter</p>
              </div>	
          </div>
        </div>
