@@ -238,7 +238,7 @@
 
 
 <!-- Data Input -->
-  d3.csv('data/test-set.csv', function(data) {
+  d3.csv('data/claims-data-2015-as-of-feb-9-2016-ADDEDLATLONG-FLATTENED.csv', function(data) {
         // Variable names
         var var1 = "ClaimNumber";
         var var2 = "DateReceived";
@@ -254,20 +254,36 @@
         var var12 = "Lat";
         var var13 = "Long";
 
-        var var14 = "PersonalElectronics";
-        var var15 = "SportingEq";
-        var var16 = "Clothing";
-        var var17 = "PersonalAccessories";
-        var var18 = "HomeDecor";
-        var var19 = "Baggage";
-        var var20 = "Unknown";
-        var var21 = "HouseholdItems";
-        var var22 = "Cameras";
-        var var23 = "Comp";
-        var var24 = "Jew";
-        var var25 = "Food";
-        var var26 = "Other";
-        var var27 = "Currency";
+        var var14 = "Unknown";
+        var var15 = "AudioVideo";
+        var var16 = "AutomobilePartsAccessories";
+        var var17 = "BaggageCasesPurses";
+        var var18 = "BooksMagazinesOther";
+        var var19 = "Cameras";
+        var var20 = "Clothing";
+        var var21 = "ComputerAccessories";
+        var var22 = "CosmeticsGrooming";
+        var var23 = "CraftingHobby";
+        var var24 = "Currency";
+        var var25 = "FoodDrink";
+        var var26 = "HomeDecor";
+        var var27 = "HouseholdItems";
+        var var28 = "HuntingFishingItems";
+        var var29 = "JewelryWatches";
+        var var30 = "MedicalScience";
+        var var31 = "MusicalInstrumentsAccessories";
+        var var32 = "OfficeEquipmentSupplies";
+		var var33 = "Other";
+		var var34 = "OutdoorItems";
+		var var35 = "PersonalAccessories";
+		var var36 = "PersonalDocuments";
+		var var37 = "PersonalElectronics";
+		var var38 = "PersonalNavigation";
+		var var39 = "SportingEquipmentSupplies";
+		var var40 = "ToolsHomeImprovementSupplies";
+		var var41 = "ToysGames";
+		var var42 = "TravelAccessories";
+
 
         data.forEach(function (d) {
           d[var1]=+d[var1];
@@ -290,6 +306,21 @@
           d[var26]=+d[var26];
           d[var27]=+d[var27];
 
+          d[var28]=+d[var28];
+          d[var29]=+d[var29];
+          d[var30]=+d[var30];
+          d[var31]=+d[var31];
+          d[var32]=+d[var32];
+          d[var33]=+d[var33];
+          d[var34]=+d[var34];
+          d[var35]=+d[var35];
+          d[var36]=+d[var36];
+          d[var37]=+d[var37];
+          d[var38]=+d[var38];
+          d[var39]=+d[var39];
+          d[var40]=+d[var40];
+          d[var41]=+d[var41];
+          d[var42]=+d[var42];          
 
 
 
@@ -394,57 +425,103 @@ var ndx = crossfilter(data),
       return "Test";
     }),
     speedSumGroup = runDimension.group().reduce(function(p,v) {
-	  p.v14+=v.PersonalElectronics;
-	  p.v15+=v.SportingEq;
-	  p.v16+=v.Clothing;
-	  p.v17+=v.PersonalAccessories;
-	  p.v18+=v.HomeDecor;
-	  p.v19+=v.Baggage;
-	  p.v20+=v.Unknown;
-	  p.v21+=v.HouseholdItems;
-	  p.v22+=v.Cameras;
-	  p.v23+=v.Comp;
-	  p.v24+=v.Jew;
-	  p.v25+=v.Food;
-	  p.v26+=v.Other;
-	  p.v27+=v.Currency;
+	  p.v14+=v.Unknown;
+	  p.v15+=v.AudioVideo;
+	  p.v16+=v.AutomobilePartsAccessories;
+	  p.v17+=v.BaggageCasesPurses;
+	  p.v18+=v.BooksMagazinesOther;
+	  p.v19+=v.Cameras;
+	  p.v20+=v.Clothing;
+	  p.v21+=v.ComputerAccessories;
+	  p.v22+=v.CosmeticsGrooming;
+	  p.v23+=v.CraftingHobby;
+	  p.v24+=v.Currency;
+	  p.v25+=v.FoodDrink;
+	  p.v26+=v.HomeDecor;
+	  p.v27+=v.HouseholdItems;
+	  p.v28+=v.HuntingFishingItems;
+	  p.v29+=v.JewelryWatches;
+	  p.v30+=v.MedicalScience;
+	  p.v31+=v.MusicalInstrumentsAccessories;
+	  p.v32+=v.OfficeEquipmentSupplies;
+	  p.v33+=v.Other;
+	  p.v34+=v.OutdoorItems;
+	  p.v35+=v.PersonalAccessories;
+	  p.v36+=v.PersonalDocuments;
+	  p.v37+=v.PersonalElectronics;
+	  p.v38+=v.PersonalNavigation;
+	  p.v39+=v.SportingEquipmentSupplies;
+	  p.v40+=v.ToolsHomeImprovementSupplies;
+	  p.v41+=v.ToysGames;
+	  p.v42+=v.TravelAccessories;	  
       return p;
     }, function(p,v) {
-	  p.v14-=v.PersonalElectronics;
-	  p.v15-=v.SportingEq;
-	  p.v16-=v.Clothing;
-	  p.v17-=v.PersonalAccessories;
-	  p.v18-=v.HomeDecor;
-	  p.v19-=v.Baggage;
-	  p.v20-=v.Unknown;
-	  p.v21-=v.HouseholdItems;
-	  p.v22-=v.Cameras;
-	  p.v23-=v.Comp;
-	  p.v24-=v.Jew;
-	  p.v25-=v.Food;
-	  p.v26-=v.Other;
-	  p.v27-=v.Currency;
+	  p.v14-=v.Unknown;
+	  p.v15-=v.AudioVideo;
+	  p.v16-=v.AutomobilePartsAccessories;
+	  p.v17-=v.BaggageCasesPurses;
+	  p.v18-=v.BooksMagazinesOther;
+	  p.v19-=v.Cameras;
+	  p.v20-=v.Clothing;
+	  p.v21-=v.ComputerAccessories;
+	  p.v22-=v.CosmeticsGrooming;
+	  p.v23-=v.CraftingHobby;
+	  p.v24-=v.Currency;
+	  p.v25-=v.FoodDrink;
+	  p.v26-=v.HomeDecor;
+	  p.v27-=v.HouseholdItems;
+	  p.v28-=v.HuntingFishingItems;
+	  p.v29-=v.JewelryWatches;
+	  p.v30-=v.MedicalScience;
+	  p.v31-=v.MusicalInstrumentsAccessories;
+	  p.v32-=v.OfficeEquipmentSupplies;
+	  p.v33-=v.Other;
+	  p.v34-=v.OutdoorItems;
+	  p.v35-=v.PersonalAccessories;
+	  p.v36-=v.PersonalDocuments;
+	  p.v37-=v.PersonalElectronics;
+	  p.v38-=v.PersonalNavigation;
+	  p.v39-=v.SportingEquipmentSupplies;
+	  p.v40-=v.ToolsHomeImprovementSupplies;
+	  p.v41-=v.ToysGames;
+	  p.v42-=v.TravelAccessories;		  
       return p;
     }, function() {
-      return { v14: 0, v15: 0, v16:0,v17: 0, v18: 0, v19:0,v20: 0, v21: 0, v22:0,v23: 0, v24: 0, v25:0,v26: 0, v27: 0 }
+      return { v14: 0, v15: 0, v16:0,v17: 0, v18: 0, v19:0,v20: 0, v21: 0, v22:0,v23: 0, v24: 0, v25:0,v26: 0, v27: 0, v28: 0, v29: 0, v30:0,v31: 0, v32: 0, v33:0,v34: 0, v35: 0, v36:0,v37: 0, v38: 0, v39:0,v40: 0, v41: 0, v42: 0 }
     });
     var fakeGroup = {
 	  all: function() {
 		 return [
-	    { key: "Personal Electronics", value: speedSumGroup.top(1)[0].value.v14 },
-	    { key: "SportingEquipment", value: speedSumGroup.top(1)[0].value.v15 },
-	    { key: "Clothing", value: speedSumGroup.top(1)[0].value.v16 },
-	    { key: "Personal Accessories", value: speedSumGroup.top(1)[0].value.v17 },
-	    { key: "Home Decor", value: speedSumGroup.top(1)[0].value.v18 },
-	    { key: "Baggage", value: speedSumGroup.top(1)[0].value.v19 },
-	    { key: "Unknown", value: speedSumGroup.top(1)[0].value.v20 },
-	    { key: "Household Items", value: speedSumGroup.top(1)[0].value.v21 },
-	    { key: "Cameras", value: speedSumGroup.top(1)[0].value.v22 },
-	    { key: "Computers", value: speedSumGroup.top(1)[0].value.v23 },
-	    { key: "Jewelry", value: speedSumGroup.top(1)[0].value.v24 },
-	    { key: "Food", value: speedSumGroup.top(1)[0].value.v25 },
-	    { key: "Other", value: speedSumGroup.top(1)[0].value.v26 },
-	    { key: "Currency", value: speedSumGroup.top(1)[0].value.v27 },
+	    { key: "Unknown", value: speedSumGroup.top(1)[0].value.v14 },
+	    { key: "AudioVideo", value: speedSumGroup.top(1)[0].value.v15 },
+	    { key: "AutomobilePartsAccessories", value: speedSumGroup.top(1)[0].value.v16 },
+	    { key: "BaggageCasesPurses", value: speedSumGroup.top(1)[0].value.v17 },
+	    { key: "BooksMagazinesOther", value: speedSumGroup.top(1)[0].value.v18 },
+	    { key: "Cameras", value: speedSumGroup.top(1)[0].value.v19 },
+	    { key: "Clothing", value: speedSumGroup.top(1)[0].value.v20 },
+	    { key: "ComputerAccessories", value: speedSumGroup.top(1)[0].value.v21 },
+	    { key: "CosmeticsGrooming", value: speedSumGroup.top(1)[0].value.v22 },
+	    { key: "CraftingHobby", value: speedSumGroup.top(1)[0].value.v23 },
+	    { key: "Currency", value: speedSumGroup.top(1)[0].value.v24 },
+	    { key: "FoodDrink", value: speedSumGroup.top(1)[0].value.v25 },
+	    { key: "HomeDecor", value: speedSumGroup.top(1)[0].value.v26 },
+	    { key: "HouseholdItems", value: speedSumGroup.top(1)[0].value.v27 },
+
+	    { key: "HuntingFishingItems", value: speedSumGroup.top(1)[0].value.v28 },
+	    { key: "JewelryWatches", value: speedSumGroup.top(1)[0].value.v29 },
+	    { key: "MedicalScience", value: speedSumGroup.top(1)[0].value.v30 },
+	    { key: "MusicalInstrumentsAccessories", value: speedSumGroup.top(1)[0].value.v31 },
+	    { key: "OfficeEquipmentSupplies", value: speedSumGroup.top(1)[0].value.v32 },
+	    { key: "Other", value: speedSumGroup.top(1)[0].value.v33 },
+	    { key: "OutdoorItems", value: speedSumGroup.top(1)[0].value.v34 },
+	    { key: "PersonalAccessories", value: speedSumGroup.top(1)[0].value.v35 },
+	    { key: "PersonalDocuments", value: speedSumGroup.top(1)[0].value.v36 },
+	    { key: "PersonalElectronics", value: speedSumGroup.top(1)[0].value.v37 },
+	    { key: "PersonalNavigation", value: speedSumGroup.top(1)[0].value.v38 },
+	    { key: "SportingEquipmentSupplies", value: speedSumGroup.top(1)[0].value.v39 },
+	    { key: "ToolsHomeImprovementSupplies", value: speedSumGroup.top(1)[0].value.v40 },
+	    { key: "ToysGames", value: speedSumGroup.top(1)[0].value.v41 },	    
+	    { key: "TravelAccessories", value: speedSumGroup.top(1)[0].value.v42 },	    
 
 	  ]; }
 	}
@@ -546,16 +623,16 @@ volumeClaimsLine
 volumeClaimsLine.yAxis().ticks(6);
 
 
-<!-- Histogram - Number of Claims by Item Type -->
+<!-- Pie Chart - Number of Claims by Item Type -->
 numberClaimsItemHistogram
 	.dimension(runDimension)
     .group(fakeGroup)
      .title(function(d) {return d.key + ": " + d.value + " claims"})
-     .width(768)
-		  .height(480)
+     .width(936)
+		  .height(585)
 		  .innerRadius(100)			
 		  .externalLabels(50)
-		  .externalRadiusPadding(50)
+		  .externalRadiusPadding(60)
 		  .legend(dc.legend())
 		  .label(function(d) {return ""});
 
@@ -565,7 +642,7 @@ numberClaimsItemHistogram.on('pretransition', function(chart) {
             .append('tspan')
               .text(function(d) { return d.name; })
             .append('tspan')
-              .attr('x', 150)
+              .attr('x', 200)
               .attr('text-anchor', 'end')
               .text(function(d) { return d.data; });
                });
