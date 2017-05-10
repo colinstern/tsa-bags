@@ -70,7 +70,7 @@
    </div>
 </div>
 
-  <p>​Clearly, <b>JFK</b> and <b>LaGuardia</b> lose the most bags of any airports in the area, while <b>Westchester County Airport</b> and <b>Stewart International Airport</b> are better alternatives.</p>
+  <p>​Clearly, <b>JFK</b> and <b>LaGuardia</b> lose the most bags of any airports in the area, while <b>Westchester County Airport</b> and <b>Stewart International Airport</b> are better alternatives. In Miami, meanwhile, it loks about average with </p>
 
 
 <!-- Heatmap key -->
@@ -156,7 +156,7 @@
    </div>
  </div>
 
- <p style="padding-bottom:15px;">JFK denies 60% of claims, which is about average. Meanwhile, Westchester County Airport denies 75% of claims and 
+ <p style="padding-bottom:15px;"><b>JFK</b> denies 60% of claims, which is about average. Meanwhile, <b>Westchester County Airport</b> denies 75% of claims, a bit worse. In Florida, you might find that flying into <b>Fort Lauderdale International Airport</b> is worth the drive to Miami since only 56% of claims are denied. It seems that no matter what, getting compensated is 50/50 at best.</p>
   <!-- Histogram - Number of Claims by Item Type -->
 <div class="row">
     <div id="number-of-claims-by-item-histogram">
@@ -549,6 +549,7 @@ d3.json("/json/us-states.json", function (statesJson) {
 	<!-- Render -->
 	dc.renderAll();
 	// console.log(airportHeatmap.geoPath().projection());
+	// console.log(histogramAirportsGroup.top(Infinity));
 });
 
 
