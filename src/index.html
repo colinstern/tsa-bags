@@ -24,7 +24,7 @@
 
 <div class="container">
 
-  <h1>TSA Claims Dataset Metrics</h1>
+  <h1>How Can the TSA Help Us Take a More Relaxing Vacation?</h1>
   <h4>By <a href="http://cstern.me/">Colin Stern</a></h4>
 
   <h3>Time for a Vacation</h3>
@@ -33,16 +33,16 @@
   <div> However, you want this flight to be as stress-free as possible - you've dealt with plenty of stress at work. You decide that losing bags is one of the most stressful experiences that could happen on your flight, so you decide to try to <b>minimize the possibility</b>.
   </div>
   <img class="center-block" src="img/bag.png" alt="View" style="width:140;height:140px;">
-  <div> After some googling, you find historical records of claims from passengers sent to the TSA asking for compensation for lost or damaged bags. Using the data, you decide to plan your trip to avoid the airports and airlines which are most likely to ruin your trip by losing your bag. <b>Which airports and airlines should you avoid, and which should you fly?</b></div>
+  <div> After some googling, you find historical records of claims from passengers sent to the TSA asking for compensation for lost or damaged bags. Using the data, you decide to plan your trip to avoid the airports and airlines which are most likely to ruin your trip by losing your bag. <b>Which airports and airlines should you avoid, and which should you fly? When should you fly? And what should you bring in your carry-on instead of your checked bag?</b></div>
     <img class="center-block" src="img/takeoff-the-plane.svg" alt="View" style="width:140;height:140px;">
     </span>
 
-  <div style="padding-bottom:15px;">Let's take a look at the <b>worst offending airports....</b></div>
+  <div style="padding-bottom:15px;">Let's take a look at the <b>worst airports....</b></div>
 
 <!-- Heatmap - Airports by Volume of Claims-->
 <div class="row">
   <div id="heatmap">
-       <strong>Airports by Volume of Claims</strong>
+       <h3>Airports by Volume of Claims</h3>
        <a class="reset" href="javascript:airportHeatmap.filterAll();dc.redrawAll();" style="display: none;">reset</a>
        <div class="clearfix"></div>
        <div class="row">
@@ -57,7 +57,7 @@
    </div>
 </div>
 
-  <p>​Clearly, <b>JFK</b> and <b>LaGuardia</b> lose the most bags of any airports in the area, while <b>Westchester County Airport</b> and <b>Stewart International Airport</b> are better alternatives. In Florida, meanwhile, <b>Miami International Airport</b> is slighlty better than <b>Orlando International Airport</b>.</p>
+  <p>Every airport in the United States is displayed on this map with the icon size representing the square root of the number of claims to the TSA of lost of damaged baggage in 2015. The scale forces large airports to occlude less of the nearby airports. Hover over the airplane icon to see how many claims came from that airport. In New York, we see that <b>JFK</b> and <b>LaGuardia</b> lose the most bags of any airports in the area, while <b>Westchester County Airport</b> and <b>Stewart International Airport</b> are better alternatives. In Florida, meanwhile, <b>Miami International Airport</b> is slighlty better than <b>Orlando International Airport. </b> Keep in mind, however, that the data is not normalized based on the number of visitors to each airport.</p>
 
 
 <!-- Heatmap key -->
@@ -79,7 +79,7 @@
  </div> -->
 
 
-   <p>​Now let's look at the <b>airlines...</b></p>
+   <p>​Now, let's look at the <b>airlines...</b></p>
 
 
    <!-- Number of selected records -->
@@ -98,7 +98,7 @@
    <!-- Histogram - Number of Claims by Airline -->
 <div class="row">
      <div id="number-claims-by-airline-histogram">
-          <strong>Number of Claims by Airline</strong>
+          <h3>Number of Claims by Airline</h3>
           <a class="reset" href="javascript:numberClaimsByAirlineHistogram.filterAll();dc.redrawAll();" style="display: none;">reset</a>
           <div class="clearfix"></div>
           <div class="row">
@@ -112,13 +112,13 @@
           </div>
      </div>
 </div>
-<p style="padding-bottom:15px;">Our data says that <b>Southwest</b> and <b>Delta</b> lose the most bags, while <b>Virgin America</b> and <b>Emirates</b> are better alternatives.</p>
+<p style="padding-bottom:15px;">The height of each bar represents the square root of number of claims the TSA received pertaining to each airline. The scale allows smaller airlines to be visible on the chart. Our data says that <b>Southwest</b> and <b>Delta</b> lose the most bags, while <b>Virgin America</b> and <b>Emirates</b> are better alternatives. Once again, keep in mind that the data is not scaled based on the number of passengers of each airline.</p>
 
 <!-- Line chart - Volume of Claims -->
 <p style="padding-bottom:15px;">Alright, we have an idea of our origin and destination airports and which airline we're going to fly. But what is the <b>best time of year to fly?</b></p>
 <div class="row">
     <div id="volume-claims-line">
-        <strong>Volume of Claims</strong>
+        <h3>Volume of Claims</h3>
         <span class="reset" style="display: none;">range: <span class="filter"></span></span>
         <a class="reset" href="javascript:volumeClaimsLine.filterAll();likeChart.filterAll();dc.redrawAll();"
            style="display: none;">reset</a>
@@ -140,33 +140,13 @@
 </div>
 </div>
 
-<p style="padding-bottom:15px;">It looks like baggage loss is fairly constant throughout the year, although <b>January</b> and <b>July</b> are slightly worse than average. <b>February</b> and <b>November</b> look slightly better - a perfect time to be a Florida Snowbird! </p>
+<p style="padding-bottom:15px;">The line chart shows the number of claims in each month of 2015. It looks like baggage loss is fairly constant throughout the year, although <b>January</b> and <b>July</b> are slightly worse than average. <b>February</b> and <b>November</b> look slightly better - a perfect time to be a Florida Snowbird! </p>
 
-<!-- Histogram - Percent of Denied Claims by Airport -->
-<p style="padding-bottom:15px;">But what happens if you <i>do</i> lose your bags? Which airport is <b>most likely to compensate you?</b></p>
-<div class="row">
-  <div id="percent-denied-claims-by-airport-histogram">
-       <strong>Percent of Denied Claims by Airport</strong>
-       <a class="reset" href="javascript:percentDeniedByAirportHistogram.filterAll();dc.redrawAll();" style="display: none;">reset</a>
-       <div class="clearfix"></div>
-       <div class="row">
-         <div id="percent-denied-by-airport-select">
-           <div>
-             <a class="reset"
-                href="javascript:percentDeniedByAirportSelect.filterAll();dc.redrawAll();"
-                style="visibility: hidden;">reset</a>
-           </div>
-         </div>
-       </div>
-   </div>
- </div>
-
- <p style="padding-bottom:15px;"><b>JFK</b> denies 60% of claims, which is about average. Meanwhile, <b>Westchester County Airport</b> denies 75% of claims, a bit worse. In Florida, you might find that flying into <b>Fort Lauderdale International Airport</b> is worth the drive to Miami since only 56% of claims are denied. However, it seems that no matter what, getting compensated is 50/50 at best.</p>
   <!-- Histogram - Number of Claims by Item Type -->
   <p style="padding-bottom:15px;">As for the <b>types of stuff lost...</b></p>
 <div class="row">
     <div id="number-of-claims-by-item-histogram">
-         <strong>Number of Claims by Item Type</strong>
+         <h3>Number of Claims by Item Type</h3>
          <a class="reset" href="javascript:numberClaimsItemHistogram.filterAll();dc.redrawAll();" style="display: none;">reset</a>
          <div class="clearfix"></div>
          <div class="row">
@@ -181,10 +161,32 @@
     </div>
 
 </div>
-<p style="padding-bottom:15px;">​Airlines seem to lose a lot of <b>clothing</b>, and not a lot of <b>cameras</b>. So bring <b>clothing</b> in your carry-on instead!</p>
+<p style="padding-bottom:15px;">​The pie chart shows the breakdown of claims which had a given category of item. Airlines seem to lose a lot of <b>clothing</b>, and not a lot of <b>cameras</b>. So bring <b>clothing</b> in your carry-on instead! Of course, keep in mind that the data is not normalized by the total amount of each item put into checked baggage in 2015.</p>
+
+
+<!-- Histogram - Percent of Denied Claims by Airport -->
+<p style="padding-bottom:15px;">But what happens if you <i>do</i> lose your bags? Which airport is <b>most likely to compensate you?</b></p>
+<div class="row">
+  <div id="percent-denied-claims-by-airport-histogram">
+       <h3>Percent of Denied Claims by Airport</h3>
+       <a class="reset" href="javascript:percentDeniedByAirportHistogram.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+       <div class="clearfix"></div>
+       <div class="row">
+         <div id="percent-denied-by-airport-select">
+           <div>
+             <a class="reset"
+                href="javascript:percentDeniedByAirportSelect.filterAll();dc.redrawAll();"
+                style="visibility: hidden;">reset</a>
+           </div>
+         </div>
+       </div>
+   </div>
+ </div>
+
+ <p style="padding-bottom:15px;">Here, the airports are sorted by the percent of claims from them which were denied. <b>JFK</b> denied 60% of claims which is slightly below average. Meanwhile, <b>Westchester County Airport</b> denied 75% of claims, a bit worse. In Florida, <b>Fort Lauderdale International Airport</b> denied only 56% of claims, while <b>Miami International Airport</b> denied 70%. Ultimately, it seems that across all airports, getting compensated is rarely better than 50/50.</p>
 
 <h4>In conclusion,</h4>
- <p style="padding-bottom:15px;">​if we're flying from the New York area, we'll want to avoid <b>JFK</b> and fly from <b>Stewart International Airport</b> instead. We'll want to fly <b>Emirates</b> and not <b>Southwest</b>. In Florida, we'll want to avoid <b>Orlando International Airport</b> and instead fly into <b>Miami International Airport</b>. We'll want to bring <b>clothing</b> in our carry-on and leave <b>cameras</b> in our checked bags. With the power of data science, we should get to Miami with our bags! Now, how to minimize the cost of those margaritas...</p>
+ <p style="padding-bottom:15px;">​if we're flying from the New York area, we'll want to avoid <b>JFK</b> and fly from <b>Stewart International Airport</b> instead. We'll want to fly <b>Emirates</b> and not <b>Southwest</b>. In Florida, we'll want to avoid <b>Orlando International Airport</b> and instead fly into <b>Miami International Airport</b>. If we have a choice, we'll want to fly in <b>February</b> and not <b>July</b>. We'll want to bring <b>clothing</b> in our carry-on and leave <b>cameras</b> in our checked bags. With the power of data science, we should get to Miami with our bags! Now, how to minimize the cost of those margaritas...</p>
  <img class="center-block" src="img/margarita.svg" alt="View" style="width:140;height:140px;">
 
 <div class="row">
