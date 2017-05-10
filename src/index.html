@@ -348,6 +348,16 @@ var ndx = crossfilter(data),
 
 
 <!-- Histogram - Percent of Denied Claims by Airport -->
+// A hack to allow sorting
+histogramAirportsGroup.order(function(d) {
+	console.log(d);
+    return d.avg;
+});
+
+histogramAirportsGroup.all = function() {
+    return histogramAirportsGroup.top(Infinity);
+}
+
 percentDeniedByAirportHistogram
     .width(1250)
     .height(200)
@@ -357,13 +367,15 @@ percentDeniedByAirportHistogram
     .xAxisLabel("Airport")
     // due to 0 to 100 percent range of denied claims
     .x(d3.scale.ordinal().domain(function(d) {return d.key;}))
-    .valueAccessor(function (d) { console.log(d); return d.value.avg;})
+    .valueAccessor(function (d) { return d.value.avg;})
     .keyAccessor(function(d) { return d.key; })
     .centerBar(false)
     .elasticX(true)
     .elasticY(true)
     .title(function(d) {return d.key + ": " + percentFormat(d.value.avg) + " denied"})
     .xUnits(dc.units.ordinal)
+    .ordering(function(d){
+    return d.value.avg })
     .xAxis().tickFormat(function(d) { return ""; });
   percentDeniedByAirportHistogram.yAxis().ticks(6);
   percentDeniedByAirportHistogram.yAxis().tickFormat(percentFormat);
@@ -372,6 +384,17 @@ percentDeniedByAirportHistogram
 
 
 <!-- Histogram - Number of Claims by Airline -->
+// A hack to allow sorting
+histogramAirlineGroup.order(function(d) {
+	console.log(d);
+    return d.count;
+});
+
+histogramAirlineGroup.all = function() {
+    return histogramAirlineGroup.top(Infinity);
+}
+
+
 numberClaimsByAirlineHistogram
   .width(1250)
   .height(200)
@@ -380,11 +403,14 @@ numberClaimsByAirlineHistogram
   .yAxisLabel("Number of Claims")
   .xAxisLabel("Airline")
   .x(d3.scale.ordinal().domain(function(d) {return d.key;}))
+  .y(d3.scale.sqrt().domain([0, 1400]))
   .valueAccessor(function (d) { return d.value.count;})
   .keyAccessor(function(d) { return d.key; })
   .elasticX(true)
   .elasticY(true)
   .xUnits(dc.units.ordinal)
+  .ordering(function(d){
+    return d.value.count })
   .title(function(d) {return d.key + ": " + d.value.count + " claims"})
   .xAxis().tickFormat(function(d) { return ""; });
   // .valueAccessor(function (d) { return d.value.count;  })
