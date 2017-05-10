@@ -20,7 +20,6 @@
 
 
 
-
 <!-- HTML -->
 
 <div class="container">
@@ -28,7 +27,15 @@
   <h1>TSA Claims Dataset Metrics</h1>
   <h4>By <a href="http://cstern.me/">Colin Stern</a></h4>
 
-
+  <h3>Time for a Vacation</h3>
+  <div><span>​You're taking some much needed time off work and you're planning to spend it in Miami, lounging on the beach sipping margaritas. However, since you don't live anywhere near Miami, <b>you're going to need to take a flight</b>.</span> </div>
+  <img class="center-block" src="img/airplane-shape.svg" alt="View" style="width:100;height:100px;">
+  <div> However, you want this flight to be as stress-free as possible - you've dealt with plenty of stress at work. You decide that losing bags is one of the most stressful experiences that could happen on your flight, so you decide to try to <b>minimize the possibility</b>.
+  </div>
+  <img class="center-block" src="img/bag.png" alt="View" style="width:140;height:140px;">
+  <div> After some googling, you find historical records of claims from passengers sent to the TSA asking for compensation for lost or damaged bags. Using the data, you decide to plan your trip to avoid the airports and airlines which are most likely to ruin your trip by losing your bag. <b>Which airports and airlines should you avoid, and which should you take?</b></div>
+    <img class="center-block" src="img/takeoff-the-plane.svg" alt="View" style="width:140;height:140px;">
+    </span>
   <!-- Number of selected records -->
   <div class="row">
       <div>
@@ -350,7 +357,7 @@ var ndx = crossfilter(data),
 <!-- Histogram - Percent of Denied Claims by Airport -->
 // A hack to allow sorting
 histogramAirportsGroup.order(function(d) {
-	console.log(d);
+	// console.log(d);
     return d.avg;
 });
 
@@ -386,7 +393,7 @@ percentDeniedByAirportHistogram
 <!-- Histogram - Number of Claims by Airline -->
 // A hack to allow sorting
 histogramAirlineGroup.order(function(d) {
-	console.log(d);
+	// console.log(d);
     return d.count;
 });
 
@@ -419,7 +426,7 @@ numberClaimsByAirlineHistogram
 
 <!-- Line chart - Volume of Claims: -->
 volumeClaimsLine
-  .width(700)
+  .width(900)
   .height(200)
   // .chart(function(c) { return dc.lineChart(c).interpolate('linear');})
   .x(d3.time.scale().domain([new Date(2015, 0, 1), new Date(2015, 11, 31)]))
