@@ -228,12 +228,12 @@
   // var volumeClaimsLineSlider = dc.barChart('#volume-claims-line-slider');
 
   // Number of Claims by Item Type Histogram
-  // var numberClaimsItemHistogram = dc.barChart('#number-of-claims-by-item-histogram');
+  var numberClaimsItemHistogram = dc.pieChart('#number-of-claims-by-item-histogram');
   // var numberClaimsItemHistogramSelect = dc.selectMenu('#number-claims-item-histogram-select');
 
 
 <!-- Data Input -->
-  d3.csv('data/claims-data-2015-as-of-feb-9-2016-ADDEDLATLONG.csv', function(data) {
+  d3.csv('data/test-set.csv', function(data) {
         // Variable names
         var var1 = "ClaimNumber";
         var var2 = "DateReceived";
@@ -249,11 +249,44 @@
         var var12 = "Lat";
         var var13 = "Long";
 
+        var var14 = "PersonalElectronics";
+        var var15 = "SportingEq";
+        var var16 = "Clothing";
+        var var17 = "PersonalAccessories";
+        var var18 = "HomeDecor";
+        var var19 = "Baggage";
+        var var20 = "Unknown";
+        var var21 = "HouseholdItems";
+        var var22 = "Cameras";
+        var var23 = "Comp";
+        var var24 = "Jew";
+        var var25 = "Food";
+        var var26 = "Other";
+        var var27 = "Currency";
+
         data.forEach(function (d) {
           d[var1]=+d[var1];
           d[var11]=+d[var11];
           d[var12]=+d[var12];
           d[var13]=+d[var13];
+
+          d[var14]=+d[var14];
+          d[var15]=+d[var15];
+          d[var16]=+d[var16];
+          d[var17]=+d[var17];
+          d[var18]=+d[var18];
+          d[var19]=+d[var19];
+          d[var20]=+d[var20];
+          d[var21]=+d[var21];
+          d[var22]=+d[var22];
+          d[var23]=+d[var23];
+          d[var24]=+d[var24];
+          d[var25]=+d[var25];
+          d[var26]=+d[var26];
+          d[var27]=+d[var27];
+
+
+
 
           // Calculate date of claim
           d.claimDate = dateParser(d[var2]);
@@ -350,6 +383,66 @@ var ndx = crossfilter(data),
       }
     ),
     histogramItemGroup = histogramItemDim.group();
+
+    // Groups to allow the item chart
+     var runDimension  = ndx.dimension(function(d) {
+      return "Test";
+    }),
+    speedSumGroup = runDimension.group().reduce(function(p,v) {
+	  p.v14+=v.PersonalElectronics;
+	  p.v15+=v.SportingEq;
+	  p.v16+=v.Clothing;
+	  p.v17+=v.PersonalAccessories;
+	  p.v18+=v.HomeDecor;
+	  p.v19+=v.Baggage;
+	  p.v20+=v.Unknown;
+	  p.v21+=v.HouseholdItems;
+	  p.v22+=v.Cameras;
+	  p.v23+=v.Comp;
+	  p.v24+=v.Jew;
+	  p.v25+=v.Food;
+	  p.v26+=v.Other;
+	  p.v27+=v.Currency;
+      return p;
+    }, function(p,v) {
+	  p.v14-=v.PersonalElectronics;
+	  p.v15-=v.SportingEq;
+	  p.v16-=v.Clothing;
+	  p.v17-=v.PersonalAccessories;
+	  p.v18-=v.HomeDecor;
+	  p.v19-=v.Baggage;
+	  p.v20-=v.Unknown;
+	  p.v21-=v.HouseholdItems;
+	  p.v22-=v.Cameras;
+	  p.v23-=v.Comp;
+	  p.v24-=v.Jew;
+	  p.v25-=v.Food;
+	  p.v26-=v.Other;
+	  p.v27-=v.Currency;
+      return p;
+    }, function() {
+      return { v14: 0, v15: 0, v16:0,v17: 0, v18: 0, v19:0,v20: 0, v21: 0, v22:0,v23: 0, v24: 0, v25:0,v26: 0, v27: 0 }
+    });
+    var fakeGroup = {
+	  all: function() {
+		 return [
+	    { key: "Personal Electronics", value: speedSumGroup.top(1)[0].value.v14 },
+	    { key: "SportingEquipment", value: speedSumGroup.top(1)[0].value.v15 },
+	    { key: "Clothing", value: speedSumGroup.top(1)[0].value.v16 },
+	    { key: "Personal Accessories", value: speedSumGroup.top(1)[0].value.v17 },
+	    { key: "Home Decor", value: speedSumGroup.top(1)[0].value.v18 },
+	    { key: "Baggage", value: speedSumGroup.top(1)[0].value.v19 },
+	    { key: "Unknown", value: speedSumGroup.top(1)[0].value.v20 },
+	    { key: "Household Items", value: speedSumGroup.top(1)[0].value.v21 },
+	    { key: "Cameras", value: speedSumGroup.top(1)[0].value.v22 },
+	    { key: "Computers", value: speedSumGroup.top(1)[0].value.v23 },
+	    { key: "Jewelry", value: speedSumGroup.top(1)[0].value.v24 },
+	    { key: "Food", value: speedSumGroup.top(1)[0].value.v25 },
+	    { key: "Other", value: speedSumGroup.top(1)[0].value.v26 },
+	    { key: "Currency", value: speedSumGroup.top(1)[0].value.v27 },
+
+	  ]; }
+	}
 
 
 // airportHeatmap is moved to end of file due to call to renderAll within the JSON callback
@@ -449,7 +542,28 @@ volumeClaimsLine.yAxis().ticks(6);
 
 
 <!-- Histogram - Number of Claims by Item Type -->
+numberClaimsItemHistogram
+	.dimension(runDimension)
+    .group(fakeGroup)
+     .title(function(d) {return d.key + ": " + d.value + " claims"})
+     .width(768)
+          .height(480)
+          .innerRadius(100)
+          .externalLabels(50)
+          .externalRadiusPadding(50)
+          .legend(dc.legend())
+          .label(function(d) {return ""});
 
+numberClaimsItemHistogram.on('pretransition', function(chart) {
+          chart.selectAll('.dc-legend-item text')
+              .text('')
+            .append('tspan')
+              .text(function(d) { return d.name; })
+            .append('tspan')
+              .attr('x', 100)
+              .attr('text-anchor', 'end')
+              .text(function(d) { return d.data; });
+               });
 <!-- Count selected records widget -->
 
 claimsCount
